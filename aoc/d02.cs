@@ -25,21 +25,10 @@
                 {
                     if (s.Length % len != 0) continue;
 
-                    var ok = true;
                     var first = s.Substring(0, len);
-					for (int j = 1; j < s.Length / len; j++)
+                    if (s.Chunk(len).All(x => new string(x) == first))
                     {
-                        var next = s.Substring(j * len, len);
-                        if (first != next)
-                        {
-                            ok = false;
-                            break;
-                        }
-					}
-
-                    if (ok)
-                    {
-                        counter2 += s.ToInt64();
+                        counter2 += i;
                         break;
                     }
                 }
