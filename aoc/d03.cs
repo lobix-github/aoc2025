@@ -4,7 +4,7 @@
     {
         List<int> list = new();
 
-        var sum = 0;
+        long sum = 0;
 		var lines = File.ReadLines(@"..\..\..\inputs\03.txt").ToList();
 		foreach (var line in lines)
 		{
@@ -25,6 +25,23 @@
 			sum += (r).ToInt32();
 		}
 
-        Console.WriteLine(sum);
+		list = new();
+		sum = 0;
+		foreach (var _line in lines)
+		{
+			var res = new List<char>();
+			var line = _line;
+			for (var i = 1; i <= 12; i++)
+			{
+				var s = line.Substring(0, line.Length - (12 - res.Count - 1));
+				var maxx = s.Max();
+				res.Add(maxx);
+				line = line.Substring(s.IndexOf(maxx) + 1, line.Length - s.IndexOf(maxx) - 1);
+			}
+			sum += new string(res.ToArray()).ToInt64();
+		}
+
+
+		Console.WriteLine(sum);
 	}
 }
