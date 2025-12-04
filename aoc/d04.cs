@@ -20,27 +20,15 @@
 		var count = map.Sum(p => sumNeighbours(p) < 4 ? 1 : 0);
 		Console.WriteLine(count);
 
-		int sumNeighbours(IntComplex p) => ComplexDirs.Sum(dir => map.Contains(p + dir) ? 1 : 0);
-
-		var count2 = 0;
-		while(true)
+		count = 0;
+		var removed = 0;
+		while((removed = map.RemoveWhere(p => sumNeighbours(p) < 4)) > 0)
 		{
-			var toRemove = new List<IntComplex>();
-			foreach (var p in map)
-			{
-				if (sumNeighbours(p) < 4)
-				{
-					toRemove.Add(p);
-				}
-			}
-			if (toRemove.Count == 0) break;
-			foreach (var p in toRemove)
-			{
-				map.Remove(p);
-				count2++;
-			}
+			count += removed;
 		}
 
-		Console.WriteLine(count2);
+		Console.WriteLine(count);
+	
+		int sumNeighbours(IntComplex p) => ComplexDirs.Sum(dir => map.Contains(p + dir) ? 1 : 0);
 	}
 }
