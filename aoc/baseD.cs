@@ -298,6 +298,22 @@ abstract class baseD
 		sequence.RemoveAt(count - 1);
 		sequence.Insert(0, tmp);
 	}
+
+
+	public IEnumerable<IntComplex> ComplexDirs
+	{
+		get
+		{
+			yield return new IntComplex(0, -1); // N
+			yield return new IntComplex(1, -1); // NE
+			yield return new IntComplex(1, 0);  // E
+			yield return new IntComplex(1, 1);  // SE
+			yield return new IntComplex(0, 1);  // S
+            yield return new IntComplex(-1, 1); // SW
+			yield return new IntComplex(-1, 0); // W
+            yield return new IntComplex(-1, -1); // NW
+		}
+	}
 }
 
 public class DCache<TKey, TValue>
