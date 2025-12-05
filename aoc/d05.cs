@@ -50,6 +50,8 @@ class d05 : baseD
 		ranges.Add((start, end));
 
 		var count = available.Sum(a => ranges.Where(f => a >= f.Item1 && a <= f.Item2).Count());
+		var count2 = ranges.Sum(f => f.Item2 - f.Item1 + 1);
 		Console.WriteLine(count);
+		Console.WriteLine(count2);
 	}
 }
