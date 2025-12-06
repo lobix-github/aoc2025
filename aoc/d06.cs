@@ -34,5 +34,38 @@ class d06 : baseD
 		}
 
 		Console.WriteLine(results.Sum());
+
+		for (int i = 0; i < lines.Count; i++)
+		{
+			lines[i] = lines[i].Replace(' ', '0');
+		}
+		lines = rotate(lines);
+		for (int i = 0; i < lines.Count; i++)
+		{
+			lines[i] = lines[i].TrimEnd('+').TrimEnd('*');
+			if (lines[i].ToInt64() == 0) lines[i] = " ";
+			lines[i] = lines[i].TrimEnd('0');
+		}
+		var sum = 0L;
+		var opsIdx = 0;
+		bool first = true;
+		results.Clear();
+		foreach (var line in lines)
+		{
+			if (line == " ")
+			{
+				results.Add(sum);
+				opsIdx++;
+				first = true;
+			}
+			else if (first)
+			{
+				sum = line.ToInt64();
+				first = false;
+			}
+			else if (ops[opsIdx]) sum += line.ToInt64(); else sum *= line.ToInt64();
+		}
+		results.Add(sum);
+		Console.WriteLine(results.Sum());
 	}
 }
