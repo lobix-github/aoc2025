@@ -30,7 +30,8 @@
 		var idx = 0;
 		var count = 0;
 		const int COUNT = 1000;
-		while (count++ < COUNT)
+		//while (count++ < COUNT)
+		while (true)
 		{
 			var r = dists[idx++];
 			var cres = circuits.Where(c => r.Item2.Any(p => c.Contains(p)));
@@ -51,6 +52,11 @@
 			else
 			{
 				circuits.Add(r.Item2);
+			}
+
+			if (circuits.First().Count == points.Count)
+			{
+				Console.WriteLine((long)r.Item2.First().x * r.Item2.Last().x);
 			}
 		}
 
