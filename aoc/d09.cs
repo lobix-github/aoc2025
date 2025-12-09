@@ -1,4 +1,6 @@
-﻿class d09
+﻿using NetTopologySuite.Geometries;
+
+class d09
 {
 	public void Run()
 	{
@@ -13,6 +15,31 @@
 				var next = tiles[j];
 				var area = (long)(Math.Abs(cur.X - next.X) + 1) * (Math.Abs(cur.Y - next.Y) + 1);
 				if (area > max) max = area;
+			}
+		}
+
+		var coords = tiles.Select(t => new Coordinate(t.X, t.Y)).ToList();
+		coords.Add(coords[0]);
+		var factory = new GeometryFactory();
+		var poly = factory.CreatePolygon(coords.ToArray());
+
+		max = 0;
+		for (int i = 0; i < coords.Count; i++)
+		{
+			var cur = coords[i];
+			for (int j = i+1; j < coords.Count; j++)
+			{
+				var next = coords[j];
+				var area = (long)((Math.Abs(cur.X - next.X) + 1) * (Math.Abs(cur.Y - next.Y) + 1));
+				if (area > max)
+				{
+					var env = new Envelope(cur, next);
+					var rect = factory.ToGeometry(env);
+					if (rect.Within(poly))
+					{
+						max = area;
+					}
+				}
 			}
 		}
 
