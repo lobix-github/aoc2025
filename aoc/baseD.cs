@@ -292,6 +292,25 @@ abstract class baseD
 		}
 	}
 
+	protected static IEnumerable<List<T>> GetCombinations<T>(IList<T> items, int k)
+	{
+		if (k == 0)
+		{
+			yield return new List<T>();
+			yield break;
+		}
+
+		for (int i = 0; i <= items.Count - k; i++)
+		{
+			foreach (var combo in GetCombinations(items.Skip(i + 1).ToList(), k - 1))
+			{
+				var result = new List<T> { items[i] };
+				result.AddRange(combo);
+				yield return result;
+			}
+		}
+	}
+
 	protected static void RotateRight(IList sequence, int count)
 	{
 		object tmp = sequence[count - 1];
