@@ -149,7 +149,7 @@ public class PathCounter<T> where T : notnull
 
 	public PathCounter(Dictionary<T, HashSet<T>> graph)
 	{
-		this.graph = graph ?? throw new ArgumentNullException(nameof(graph)); ;
+		this.graph = graph ?? throw new ArgumentNullException(nameof(graph));
 	}
 
 	public long CountPaths(T start, T target)
