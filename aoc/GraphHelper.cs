@@ -92,3 +92,80 @@ public static class GraphHelper
         return costs;
     }
 }
+
+public class PathFinder<T> where T : notnull
+{
+	private readonly Dictionary<T, HashSet<T>> graph;
+	private readonly Dictionary<T, List<HashSet<T>>> cache = new();
+
+	public PathFinder(Dictionary<T, HashSet<T>> graph)
+	{
+		this.graph = graph ?? throw new ArgumentNullException(nameof(graph));
+	}
+
+	public List<HashSet<T>> GetAllPaths(T start, T target)
+	{
+		return Dfs(start, target);
+	}
+
+	private List<HashSet<T>> Dfs(T node, T target)
+	{
+		if (EqualityComparer<T>.Default.Equals(node, target)) return new List<HashSet<T>> { new HashSet<T> { node } };
+		if (cache.TryGetValue(node, out var cached)) return cached;
+
+		var result = new List<HashSet<T>>();
+		if (!graph.TryGetValue(node, out var neighbors) || neighbors.Count == 0)
+		{
+			cache[node] = result;
+			return result;
+		}
+
+		foreach (var next in neighbors)
+		{
+			var subpaths = Dfs(next, target);
+			foreach (var sp in subpaths)
+			{
+				var path = new HashSet<T>(sp.Count + 1) { node };
+				path.UnionWith(sp);
+				result.Add(path);
+			}
+		}
+
+		cache[node] = result;
+		return result;
+	}
+}
+
+public class PathCounter<T> where T : notnull
+{
+	private readonly Dictionary<T, HashSet<T>> graph;
+	private readonly Dictionary<T, long> cache = new();
+
+	public PathCounter(Dictionary<T, HashSet<T>> graph)
+	{
+		this.graph = graph;
+	}
+
+	public long CountPaths(T start, T target)
+	{
+		return Dfs(start, target);
+	}
+
+	private long Dfs(T node, T target)
+	{
+		if (EqualityComparer<T>.Default.Equals(node, target)) return 1;
+		if (cache.TryGetValue(node, out long cached)) return cached;
+
+		long total = 0;
+		if (graph.TryGetValue(node, out var neighbors))
+		{
+			foreach (var next in neighbors)
+			{
+				total += Dfs(next, target);
+			}
+		}
+
+		cache[node] = total;
+		return total;
+	}
+}
