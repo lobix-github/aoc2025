@@ -93,6 +93,9 @@ public static class GraphHelper
     }
 }
 
+/// <summary>
+///     Executes Dfs to find all paths between two nodes in a graph
+/// </summary>
 public class PathFinder<T> where T : notnull
 {
 	private readonly Dictionary<T, HashSet<T>> graph;
@@ -136,6 +139,9 @@ public class PathFinder<T> where T : notnull
 	}
 }
 
+/// <summary>
+///     Executes Dfs to find a number of all paths between two nodes in a graph
+/// </summary>
 public class PathCounter<T> where T : notnull
 {
 	private readonly Dictionary<T, HashSet<T>> graph;
